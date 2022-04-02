@@ -1,0 +1,19 @@
+{
+  "name": "nodejs-express-api",
+  "version": "1.0.0",
+  "description": "restapi using Nodejs, Express and MongoDB",
+  "main": "src/index.mjs",
+  "repository": "https://github.com/junanda/nodejs-express-api.git",
+  "author": "anzoid <jpatihullah@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon ./src/index.mjs"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.2",
+    "cors": "^2.8.5",
+    "express": "^4.17.3",
+    "helmet": "^5.0.2",
+    "morgan": "^1.10.0"
+  }
+}
