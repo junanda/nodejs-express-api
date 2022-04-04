@@ -3,6 +3,7 @@ import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
 import bodyParser from "body-parser";
+import Mongo from "./databases/Mongo.mjs";
 
 // routes
 import UserRouter from "./router/UserRouter.mjs";
@@ -13,6 +14,9 @@ class App {
     this.app = express();
     this.plugin();
     this.routes();
+
+    Mongo.on("error", console.error.bind(console, "Database connect error"));
+    Mongo.once("open", () => console.log("Databases is Connected"));
   }
 
   routes() {
