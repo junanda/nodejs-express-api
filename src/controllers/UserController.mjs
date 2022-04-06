@@ -1,62 +1,41 @@
 import User from "../models/Users.mjs";
+import service from "../services/service.user.mjs";
 
 class UserController {
   index = async (req, res) => {
-    // fetch data from resource
-    try {
-      const users = await User.find();
-      res.json(users);
-    } catch (error) {
-      res.json({ message: error });
-    }
+    const users = await service.getAll();
+    res.json(users);
   };
 
   create = async (req, res) => {
-    const { name, username, password, role } = req.body;
-    const new_user = new User({ name, username, password, role });
+    const new_user = await service.insert(req.body);
 
-    try {
-      const result = await new_user.save();
-      res.json(result);
-    } catch (error) {
-      res.json({ message: error });
-    }
+    if (new_user == false) res.json({ message: "create data failed!" });
+    else res.json(new_user);
   };
 
   show = async (req, res) => {
     const { id } = req.params;
-    try {
-      const data = await User.findOne({ _id: id });
-      res.json(data);
-    } catch (error) {
-      res.json({ message: error });
-    }
+
+    const user = await service.detail(id);
+
+    if (user) res.json(user);
+    else res.json({ message: "user not found!" });
   };
 
   update = async (req, res) => {
     const { id } = req.params;
-    const { name, username, role } = req.body;
-    try {
-      const userUpdate = await User.updateOne(
-        { _id: id },
-        {
-          name,
-          username,
-          role,
-        }
-      );
 
-      res.json(userUpdate);
-    } catch (error) {
-      res.json({ message: error });
-    }
+    const result = await service.update(id, req.body);
+    if (result) res.json(result);
+    else res.json({ message: "update data failed" });
   };
 
   delete = async (req, res) => {
     const { id } = req.params;
     try {
       const del_user = await User.deleteOne({ _id: id });
-      res.json({ del_user });
+      res.json({ message: "Delete user success" });
     } catch (error) {
       res.json({ message: error });
     }
