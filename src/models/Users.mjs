@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import passportLocalMongoose from "passport-local-mongoose";
 
 const userSchecma = mongoose.Schema({
   // _id: mongoose.Schema.Types.ObjectId,
@@ -9,10 +10,7 @@ const userSchecma = mongoose.Schema({
   username: {
     type: String,
     required: true,
-  },
-  password: {
-    type: String,
-    required: true,
+    unique: true,
   },
   role: {
     type: String,
@@ -24,6 +22,8 @@ const userSchecma = mongoose.Schema({
     default: Date.now,
   },
 });
+
+userSchecma.plugin(passportLocalMongoose);
 
 const User = mongoose.model("Users", userSchecma);
 

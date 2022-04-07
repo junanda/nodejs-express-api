@@ -10,10 +10,18 @@ service.getAll = async () => {
 
 service.insert = async (data) => {
   const { name, username, password, role } = data;
-  const new_user = new User({ name, username, password, role });
+  const new_user = new User({ name, username, role });
   try {
-    const result = await new_user.save();
-    return result;
+    User.register(new_user, password, (err, user) => {
+      if (err) {
+        return false;
+        // res.json({success: false, message: `your account could not be saved. Error: ${err}`})
+      } else {
+        return true;
+      }
+    });
+    // const result = await new_user.save();
+    // return result;
   } catch (error) {
     console.error(`Error insert data : ${error}`);
     return false;

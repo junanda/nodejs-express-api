@@ -11,7 +11,7 @@ class UserController {
     const new_user = await service.insert(req.body);
 
     if (new_user == false) res.json({ message: "create data failed!" });
-    else res.json(new_user);
+    else res.json({ message: "your account has ben saved" });
   };
 
   show = async (req, res) => {
