@@ -1,4 +1,5 @@
 import passport from "passport";
+import Authentication from "../utils/Authentication.mjs";
 
 class AuthController {
   login = async (req, res) => {
@@ -16,10 +17,16 @@ class AuthController {
             if (err) {
               res.json({ success: false, message: err });
             } else {
-              // generate token using jwt
+              const token = Authentication.generateToken(
+                user._id,
+                user.username,
+                user.role
+              );
+
               res.json({
                 success: true,
                 message: "Authentication successful",
+                token,
               });
             }
           });
