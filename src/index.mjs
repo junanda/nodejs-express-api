@@ -7,6 +7,8 @@ import Mongo from "./databases/Mongo.mjs";
 import passport from "passport";
 import localStrategy from "passport-local";
 import session from "express-session";
+import swaggerUi from "swagger-ui-express";
+import { readFile } from "fs/promises";
 
 // models
 import User from "./models/Users.mjs";
@@ -15,6 +17,9 @@ import User from "./models/Users.mjs";
 import UserRouter from "./router/UserRouter.mjs";
 import AuthRouter from "./router/AuthRouter.mjs";
 
+const swaggerFile = JSON.parse(
+  await readFile(new URL("../swagger-output.json", import.meta.url))
+);
 class App {
   static app;
   constructor() {
@@ -28,10 +33,10 @@ class App {
   }
 
   routes() {
-    this.app.route("/api/v1/").get((req, res) => {
-      res.send("Welcome to server");
-    });
-
+    // this.app.route("/api/v1/").get((req, res) => {
+    //   res.send("Welcome to server");
+    // });
+    this.app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerFile));
     this.app.use("/api/v1/users", UserRouter);
     this.app.use("/api/v1/auth", AuthRouter);
   }

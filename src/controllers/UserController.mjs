@@ -3,6 +3,7 @@ import service from "../services/service.user.mjs";
 
 class UserController {
   index = async (req, res) => {
+    // #swagger.tags = ['User']
     const users = await service.getAll();
     res.json(users);
   };
